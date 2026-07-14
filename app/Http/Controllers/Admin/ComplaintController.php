@@ -13,7 +13,7 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $title = 'Pengaduan';
+        $title = 'Complaint Masyarakat';
         $complaints = Complaint::with(['category', 'user'])->get();
         return view('admin.complaint.index', compact('complaints', 'title'));
     }
@@ -47,7 +47,12 @@ class ComplaintController extends Controller
      */
     public function edit(Complaint $complaint)
     {
-        //
+        $title = "Ubah Data : " . $complaint->title;
+        $view = view('admin.complaint.edit', compact('title', 'complaint'))->render();
+        return response()->json([
+            'success' => true,
+            'html' => $view
+        ]);
     }
 
     /**
@@ -55,7 +60,11 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, Complaint $complaint)
     {
-        //
+        $validated = $request->validate([
+            'status' => 'required|in:baru,diproses,selesai,ditolak',
+            'note' => 'required',
+        ]);
+        
     }
 
     /**

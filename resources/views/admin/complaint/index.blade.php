@@ -41,32 +41,29 @@
                                     <td>{{ $complaint->user->name ?? 'User tidak tersedia' }}</td>
                                     <td>{{ $complaint->category->name ?? 'Kategori tidak tersedia' }}</td>
                                     <td>{{ $complaint->title }}</td>
-                                    <td>{{ $complaint->deskripsi }}</td>
+                                    <td>{{ $complaint->description }}</td>
                                     <td>{{ $complaint->location }}</td>
                                     <td>{{ $complaint->latitude }}</td>
                                     <td>{{ $complaint->longitude }}</td>
                                     <td>
-                                        @if ($item->photo_path)
-                                            <img src="{{ asset('storage/' . $complaint->foto) }}" alt="Foto Pengaduan"
-                                                width="100">
+                                        @if ($complaint->photo_path)
+                                            <img src="{{ asset('storage/' . $complaint->photo_path) }}"
+                                                alt="Foto Pengaduan" width="100">
                                         @else
                                             <p>Foto tidak tersedia</p>
                                         @endif
                                     </td>
+                                    <td>{{ $complaint->status }}</td>
+
                                     <td>
                                         <a href="javascript:;"
                                             data-url="{{ route('admin.complaint.edit', $complaint->id) }}"
                                             class="btn btn-sm btn-warning btn-edit"><i class="bi bi-pencil-square"></i></a>
-
+                                            
                                         <a href="{{ route('admin.complaint.show', $complaint->id) }}"
                                             class="btn btn-info btn-sm">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        {{-- <a href="javascript:;"
-                                            data-url="{{ route('admin.complaint.show', $complaint->id) }}"
-                                            class="btn btn-danger btn-sm btn-delete">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </a> --}}
                                     </td>
                                 </tr>
                             @endforeach
