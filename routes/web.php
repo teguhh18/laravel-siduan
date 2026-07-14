@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComplaintStatusLogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ComplaintController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/complaint/modal-delete/{id}', [ComplaintController::class, 'modal_delete'])->middleware('role:masyarakat')->name('user.complaint.modal-delete');
 
 Route::resource('complaint', ComplaintController::class)->middleware('role:masyarakat')->names('user.complaint');
+
+Route::resource('complaint/status-log', ComplaintStatusLogController::class)->middleware('role:masyarakat,admin')->names('complaint.status-log');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

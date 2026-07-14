@@ -55,7 +55,11 @@
                                             <p>Foto tidak tersedia</p>
                                         @endif
                                     </td>
-                                    <td>{{ $complaint->status }}</td>
+                                    <td>{{ $complaint->status }}
+                                        <a href="{{ route('complaint.status-log.index', ['complaint_id' => $complaint->id]) }}" class="btn btn-info btn-sm">
+                                            <i class="bi bi-clock-history"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a href="{{ route('user.complaint.edit', $complaint->id) }}"
                                             class="btn btn-sm btn-warning btn-edit"><i class="bi bi-pencil-square"></i></a>

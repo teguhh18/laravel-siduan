@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Complaint;
+use App\Models\ComplaintStatusLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ComplaintController extends Controller
 {
@@ -64,7 +66,27 @@ class ComplaintController extends Controller
             'status' => 'required|in:baru,diproses,selesai,ditolak',
             'note' => 'required',
         ]);
-        
+
+        DB::beginTransaction();
+        try {
+            $complaint->update([
+                'status' => $request->status,
+            ]);
+
+            // Buat RIwayat
+            ComplaintStatusLog::create([
+                'complaint_id' => $complaint->id,
+                'changed_by' => auth()->user()->id,
+                'status' =>  $complaint->status,
+                'note' =>  $request->note,
+            ]);
+
+            DB::commit();
+            return redirect()->route('admin.complaint.index')->with(['message' => 'Complaint berhasil Diubah.'], ['type-alert' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with(['message' => 'Gagal menambahkan Kategori: ' . $e->getMessage()], ['type-alert' => 'error']);
+        }
     }
 
     /**
